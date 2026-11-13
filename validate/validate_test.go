@@ -24,8 +24,14 @@ var emailCases = []struct {
 	{"valid simple", "student@softserve.academy", true},
 	{"missing at sign", "student-softserve.academy", false},
 	{"empty string", "", false},
-
-	// TODO: add at least 5 more cases here.
+	{"whitespace inside", "stu dent@example.com", false},
+	{"missing domain", "student@", false},
+	{"missing local part", "@example.com", false},
+	{"double at sign", "student@@example.com", false},
+	{"valid with dots", "first.last@example.co.uk", true},
+	{"no dot in domain", "student@localhost", false},
+	{"trailing space", "student@example.com ", false},
+	{"valid plus tag", "user+tag@gmail.com", true},
 }
 
 func TestValidateEmail(t *testing.T) {
@@ -62,8 +68,14 @@ var phoneCases = []struct {
 	{"valid with plus", "+380501234567", true},
 	{"contains letters", "050-abc-4567", false},
 	{"empty string", "", false},
-
-	// TODO: add at least 5 more cases here.
+	{"valid with dashes", "050-123-4567", true},
+	{"valid with spaces", "050 123 4567", true},
+	{"too short", "+123", false},
+	{"valid us number", "+12025551234", true},
+	{"parentheses format", "(050) 123-4567", true},
+	{"only plus sign", "+", false},
+	{"special characters", "050!234@5678", false},
+	{"valid long number", "+441234567890123", true},
 }
 
 func TestValidatePhone(t *testing.T) {
